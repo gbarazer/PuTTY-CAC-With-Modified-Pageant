@@ -8,24 +8,11 @@ known to build correctly with Microsoft Visual C, at this time.
 
 But it supports the DoD Common Access Card (CAC) and a number of other smartcards.  
 
-PuTTY-CAC is now updated to 0.65 and is in sync with the newest PuTTY
-Suite 0.65. I synced the PuTTY-CAC code with the latest version of PuTTY
-0.65 to get PuTTY-CAC 0.65. This is a non-official release. If and/or
-when Daniel Risacher (the developer of PuTTY-CAC) updates his release I
-recommend using his instead.
-
-What's changed since version 0.63?
-PuTTY
-0.64, fixes a security hole in 0.63 and before: private-key-not-wiped-2.
-Also diffie-hellman-range-check has been argued to be a security hole.
-In addition to these and other less critical bug fixes, 0.64 also
-supports the major new feature of sharing an SSH connection between
-multiple instances of PuTTY and its tools, and a command-line and config
-option to specify the expected host key(s).
-
-PuTTY 0.65, fixes the
-Vista bug where the configuration dialog became invisible, and a few
-other bugs, large and small.
+PuTTY-CAC is now updated to 0.66 and is in sync with the latest PuTTY
+Suite 0.66.  This is my version with the modified pageant.
+PuTTY 0.66 fixes a security hole in 0.65 and before:
+vuln-ech-overflow. It also contains a few other small bug fixes and
+minor features.
 
 Source:
 http://www.chiark.greenend.org.uk/~sgtatham/putty/ (Original PuTTY as
