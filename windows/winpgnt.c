@@ -2585,8 +2585,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 	AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
     }
     AppendMenu(systray_menu, MF_ENABLED, IDM_VIEWKEYS, "&View Keys/CAPI Certs");
-	    AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
-    AppendMenu(systray_menu, MF_ENABLED, IDM_ADDKEY, "Add &Key");
+    AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
+	AppendMenu(systray_menu, MF_ENABLED, IDM_ADDKEY, "Add &Key");
 	AppendMenu(systray_menu, MF_ENABLED, IDM_ADDCAPI, "Add CAPI Cert");
     AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
     if (has_help())
