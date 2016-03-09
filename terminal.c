@@ -3498,7 +3498,7 @@ static void term_out(Terminal *term)
 			    UINT_MAX / 10 &&
 			    term->esc_args[term->esc_nargs - 1] * 10 <=
 			    UINT_MAX - c - '0')
-			term->esc_args[term->esc_nargs - 1] =
+			    term->esc_args[term->esc_nargs - 1] =
 			        10 * term->esc_args[term->esc_nargs - 1] +
 			        c - '0';
 			else
@@ -4373,7 +4373,7 @@ static void term_out(Terminal *term)
 		  case '9':
 		    if (term->esc_args[0] <= UINT_MAX / 10 &&
 			term->esc_args[0] * 10 <= UINT_MAX - c - '0')
-		    term->esc_args[0] = 10 * term->esc_args[0] + c - '0';
+			term->esc_args[0] = 10 * term->esc_args[0] + c - '0';
 		    else
 			term->esc_args[0] = UINT_MAX;
 		    break;
@@ -4459,7 +4459,7 @@ static void term_out(Terminal *term)
 		  case '9':
 		    if (term->esc_args[0] <= UINT_MAX / 10 &&
 			term->esc_args[0] * 10 <= UINT_MAX - c - '0')
-		    term->esc_args[0] = 10 * term->esc_args[0] + c - '0';
+			term->esc_args[0] = 10 * term->esc_args[0] + c - '0';
 		    else
 			term->esc_args[0] = UINT_MAX;
 		    break;

@@ -15,6 +15,7 @@
 #include "misc.h"
 #include "tree234.h"
 #include "winsecur.h"
+#include "licence.h"
 
 #include <shellapi.h>
 
@@ -193,6 +194,7 @@ static int CALLBACK LicenceProc(HWND hwnd, UINT msg,
 {
     switch (msg) {
       case WM_INITDIALOG:
+        SetDlgItemText(hwnd, 1000, LICENCE_TEXT("\r\n\r\n"));
 	return 1;
       case WM_COMMAND:
 	switch (LOWORD(wParam)) {
@@ -217,7 +219,14 @@ static int CALLBACK AboutProc(HWND hwnd, UINT msg,
 {
     switch (msg) {
       case WM_INITDIALOG:
-	SetDlgItemText(hwnd, 100, ver);
+        {
+            char *text = dupprintf
+                ("Pageant\r\n\r\n%s\r\n\r\n%s",
+                 ver,
+                 "\251 " SHORT_COPYRIGHT_DETAILS ". All rights reserved.\r\n\r\nModified By: Joshua Dantzler");
+            SetDlgItemText(hwnd, 1000, text);
+            sfree(text);
+        }
 	return 1;
       case WM_COMMAND:
 	switch (LOWORD(wParam)) {
@@ -2198,6 +2207,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 	    }
 	    prompt_add_keyfile();
 	    break;
+		/* PuTTY CAPI start */
 	  case IDM_ADDCAPI:
 		if (passphrase_box) {
 		MessageBeep(MB_ICONERROR);
@@ -2206,6 +2216,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 		}
 		prompt_add_CAPIkey(hwnd);
 		break;
+		/* PuTTY CAPI end */
 	  case IDM_ABOUT:
 	    if (!aboutbox) {
 		aboutbox = CreateDialog(hinst, MAKEINTRESOURCE(213),
@@ -2293,7 +2304,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 			debug(("couldn't get default SID\n"));
 #endif
                         CloseHandle(filemap);
-                        sfree(ourself);
 			return 0;
                     }
 
@@ -2306,7 +2316,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                                rc));
 #endif
                         CloseHandle(filemap);
-                        sfree(ourself);
                         sfree(ourself2);
 			return 0;
 		    }
@@ -2327,7 +2336,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                         !EqualSid(mapowner, ourself2)) {
                         CloseHandle(filemap);
                         LocalFree(psd);
-                        sfree(ourself);
                         sfree(ourself2);
 			return 0;      /* security ID mismatch! */
                     }
@@ -2335,7 +2343,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 		    debug(("security stuff matched\n"));
 #endif
                     LocalFree(psd);
-                    sfree(ourself);
                     sfree(ourself2);
 		} else {
 #ifdef DEBUG_IPC
@@ -2584,7 +2591,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 		   (UINT) session_menu, "&Saved Sessions");
 	AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
     }
-    AppendMenu(systray_menu, MF_ENABLED, IDM_VIEWKEYS, "&View Keys/CAPI Certs");
+	AppendMenu(systray_menu, MF_ENABLED, IDM_VIEWKEYS, "&View Keys/CAPI Certs");
     AppendMenu(systray_menu, MF_SEPARATOR, 0, 0);
 	AppendMenu(systray_menu, MF_ENABLED, IDM_ADDKEY, "Add &Key");
 	AppendMenu(systray_menu, MF_ENABLED, IDM_ADDCAPI, "Add CAPI Cert");

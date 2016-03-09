@@ -1167,34 +1167,34 @@ static void pangofont_draw_text(GdkDrawable *target, GdkGC *gc, unifont *font,
         if (is_rtl(string[0]) ||
             pangofont_char_width(layout, pfont, string[n-1],
                                  utfptr, clen) != cellwidth) {
-        /*
+            /*
              * If this character is a right-to-left one, or has an
              * unusual width, then we must display it on its own.
              */
         } else {
-                /*
+            /*
              * Try to amalgamate a contiguous string of characters
              * with the expected sensible width, for the common case
              * in which we're using a monospaced font and everything
              * works as expected.
-                 */
-                while (clen < utflen) {
-                    int oldclen = clen;
-                    clen++;		       /* skip UTF-8 introducer byte */
-                    while (clen < utflen &&
-                           (unsigned char)utfptr[clen] >= 0x80 &&
-                           (unsigned char)utfptr[clen] < 0xC0)
-                        clen++;
-                    n++;
+             */
+            while (clen < utflen) {
+                int oldclen = clen;
+                clen++;		       /* skip UTF-8 introducer byte */
+                while (clen < utflen &&
+                       (unsigned char)utfptr[clen] >= 0x80 &&
+                       (unsigned char)utfptr[clen] < 0xC0)
+                    clen++;
+                n++;
                 if (pangofont_char_width(layout, pfont,
                                          string[n-1], utfptr + oldclen,
                                          clen - oldclen) != cellwidth) {
-                        clen = oldclen;
-                        n--;
-                        break;
-                    }
+                    clen = oldclen;
+                    n--;
+                    break;
                 }
             }
+        }
 
 	pango_layout_set_text(layout, utfptr, clen);
 	pango_layout_get_pixel_extents(layout, NULL, &rect);

@@ -19,6 +19,7 @@
 #include "terminal.h"
 #include "storage.h"
 #include "win_res.h"
+#include "winsecur.h"
 
 #ifndef NO_MULTIMON
 #include <multimon.h>
@@ -391,6 +392,21 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     }
 
     /*
+     * Protect our process
+     */
+    {
+#ifndef UNPROTECT
+        char *error = NULL;
+        if (! setprocessacl(error)) {
+            char *message = dupprintf("Could not restrict process ACL: %s",
+                                      error);
+	    logevent(NULL, message);
+            sfree(message);
+	    sfree(error);
+	}
+#endif
+    }
+    /*
      * Process the command line.
      */
     {
@@ -706,9 +722,9 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 	if (conf_get_int(conf, CONF_sunken_edge))
 	    exwinmode |= WS_EX_CLIENTEDGE;
 	hwnd = CreateWindowExW(exwinmode, uappname, uappname,
-			      winmode, CW_USEDEFAULT, CW_USEDEFAULT,
-			      guess_width, guess_height,
-			      NULL, NULL, inst, NULL);
+                               winmode, CW_USEDEFAULT, CW_USEDEFAULT,
+                               guess_width, guess_height,
+                               NULL, NULL, inst, NULL);
         sfree(uappname);
     }
 
@@ -3217,7 +3233,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 wchar_t pair[2];
                 pair[0] = pending_surrogate;
                 pair[1] = c;
-	    term_seen_key_event(term);
+                term_seen_key_event(term);
                 luni_send(ldisc, pair, 2, 1);
             } else if (!IS_SURROGATE(c)) {
                 term_seen_key_event(term);
